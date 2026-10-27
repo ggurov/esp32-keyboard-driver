@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+
+# local captures and logs
+shots/
+*.log
+
+# credentials / session tokens
+.ghtoken
+.ghtoken.b64
+.kvm_token
+.kbd_token
+
+# downloaded toolchains
+tools/bin/
+tools/arduino/
+
+.vscode/
+.DS_Store
