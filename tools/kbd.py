@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-"""Drive the server BIOS through the ESP32-S3 HID keyboard (tools/../fw/esp32kbd).
+"""Drive a host BIOS through the ESP32-S3 HID keyboard (firmware/esp32kbd).
 
 The board's UART (CH343, VID 1A86 PID 55D3) is the control channel; its native
-USB port is the keyboard the server sees. Verification is done with the webcam,
-since the PiKVM video path is dead.
+USB port is the keyboard the target sees. `step` verifies a keypress by diffing
+webcam frames, which is how you work when the target has no video path.
 
   python tools/kbd.py ping
   python tools/kbd.py press UP

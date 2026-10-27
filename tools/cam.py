@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Capture stills from the 4MP USB webcam aimed at the AILONG monitor.
+"""Capture stills from a USB webcam aimed at the target's monitor.
 
   python tools/cam.py list                 # enumerate indices, report frame stats
   python tools/cam.py grab [name]          # one frame -> shots/<name>.jpg

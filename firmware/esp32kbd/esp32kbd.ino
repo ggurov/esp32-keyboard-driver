@@ -1,8 +1,8 @@
 /*
- * esp32kbd - USB HID keyboard for driving the AILONG server BIOS.
+ * esp32kbd - USB HID keyboard for driving a host BIOS over USB.
  *
  * Target:  ESP32-S3-USB-OTG board, OTG jumper bridged.
- *   - native USB port (GPIO19/20) -> server, enumerates as a boot keyboard
+ *   - native USB port (GPIO19/20) -> target, enumerates as a boot keyboard
  *   - UART0 (GPIO43/44) via CH343 -> operator console at 115200
  *
  * Line protocol (newline terminated, case-insensitive):
