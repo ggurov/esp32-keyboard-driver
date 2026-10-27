@@ -187,6 +187,8 @@ def main():
 
     sub.add_parser("ping")
     sub.add_parser("id")
+    sub.add_parser("status", help="USB mount counters (started>0 = host configured us)")
+    sub.add_parser("vbus", help="dump USB OTG registers (VBUS / address / suspend state)")
     sub.add_parser("ra", help="release all keys")
 
     pp = sub.add_parser("press", help="tap a key")
@@ -221,6 +223,10 @@ def main():
             print(k.cmd("PING") or "no reply")
         elif a.cmd == "id":
             print(k.cmd("ID") or "no reply")
+        elif a.cmd == "status":
+            print(k.cmd("STATUS") or "no reply")
+        elif a.cmd == "vbus":
+            print(k.cmd("VBUS") or "no reply")
         elif a.cmd == "ra":
             print(k.cmd("RA") or "no reply")
         elif a.cmd == "press":

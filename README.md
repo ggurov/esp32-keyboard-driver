@@ -85,6 +85,9 @@ python tools/fw.py flash           # both
 FQBN: `esp32:esp32:esp32s3usbotg` with the board's defaults
 (`USBMode=USB-OTG`, `UploadMode=UART0`).
 
+Full walkthrough — prerequisites, build, flash, driving a target, camera
+verification, BIOS navigation cookbook and troubleshooting: **[docs/USAGE.md](docs/USAGE.md)**.
+
 ## Host driver
 
 ```sh
@@ -96,7 +99,8 @@ python tools/kbd.py type "hello"
 python tools/kbd.py hold DOWN
 python tools/kbd.py release DOWN
 python tools/kbd.py ra
-python tools/kbd.py status
+python tools/kbd.py status           # started>0 = the host has configured us
+python tools/kbd.py vbus             # raw OTG registers when it has not
 ```
 
 Optional camera verification (`pip install opencv-python numpy`) — points a webcam at
