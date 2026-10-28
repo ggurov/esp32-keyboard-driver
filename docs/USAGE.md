@@ -117,6 +117,30 @@ single character (`press a`, `press 1`).
 
 Port override: `KBD_PORT=COM9 python tools/kbd.py press UP`.
 
+
+### 5.1 Use the daemon, not one-shot calls
+
+Every `python tools/kbd.py` run opens the serial port, and opening the port pulses the
+auto-reset circuit — the ESP32 reboots, the target sees a disconnect, and any key sent
+in that window is lost. For anything longer than a single keypress, run the daemon:
+
+```sh
+python tools/kbd_server.py --port COM7 --http-port 7788   # holds the port once
+curl 'http://127.0.0.1:7788/key/DOWN?gap=300'
+curl 'http://127.0.0.1:7788/seq?keys=DOWN,DOWN,ENTER'
+```
+
+It never reopens the port, so the board stays enumerated. The health check is the
+firmware's own counter:
+
+```sh
+curl -s http://127.0.0.1:7788/status
+# {"ok": true, "reply": "OK STATUS started=18 stopped=18 ...
+```
+
+`started` must not increase while you are sending keys. If it does, another process
+(or a one-shot `kbd.py` call) is still opening COM7.
+
 ## 6. Verify with a camera
 
 If the target has no usable video path, point any webcam at the monitor and let the

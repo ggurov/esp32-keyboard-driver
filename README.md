@@ -115,6 +115,34 @@ python tools/kbd.py step RIGHT     # photo → key → photo → "CHANGED" / "no
 `tools/cam.py` grabs stills (`python tools/cam.py grab name`) and can crop a region.
 Set `CAM_INDEX` for a camera other than index 1.
 
+
+## Resident daemon (recommended)
+
+Opening the serial port pulses the board's auto-reset line, so every `python tools/kbd.py`
+invocation reboots the ESP32 — which drops the USB link the target just enumerated and
+eats keystrokes mid-sequence. Run the daemon instead: it opens the port **once**, in the
+non-resetting state, and serves keys over HTTP.
+
+```sh
+python tools/kbd_server.py --port COM7 --http-port 7788
+```
+
+| Endpoint | Action |
+|---|---|
+| `GET /key/UP?hold=200&gap=120` | tap a key |
+| `GET /seq?keys=UP,DOWN,ENTER&gap=250` | ordered taps |
+| `GET /hold/DOWN`, `/release/DOWN`, `/ra` | press / release / release-all |
+| `GET /type?text=hello` | type text |
+| `GET /status`, `/vbus`, `/health` | firmware telemetry |
+
+```sh
+curl 'http://127.0.0.1:7788/key/ENTER'
+curl 'http://127.0.0.1:7788/status'    # started= must stay constant across keys
+```
+
+`started` in `/status` is the firmware's mount counter. If it increases while you are
+sending keys, something is still reopening the port.
+
 ## Gotchas that will cost you an evening
 
 **DTR high / RTS low is the only safe way to open the serial port.** The CH343

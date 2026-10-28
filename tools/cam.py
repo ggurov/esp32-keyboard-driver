@@ -66,6 +66,8 @@ def save(frame, name):
     os.makedirs(OUT, exist_ok=True)
     path = os.path.abspath(os.path.join(OUT, f"{name}.jpg"))
     cv2.imwrite(path, frame, [cv2.IMWRITE_JPEG_QUALITY, 95])
+    if not os.path.exists(path):
+        raise RuntimeError(f"failed to write {path}")
     h, w = frame.shape[:2]
     print(f"{path} {w}x{h} mean={frame.mean():.2f}")
 
